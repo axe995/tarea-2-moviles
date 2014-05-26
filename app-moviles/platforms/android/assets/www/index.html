@@ -1,0 +1,54 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+
+  <title>MiniApp</title>
+  <meta name="description" content="My Parse App">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
+  <script src="//www.parsecdn.com/js/parse-1.2.18.min.js"></script>
+</head>
+
+<body>
+  
+  <div id="main">
+    <h1>¡Lego Minifigs!</h1>
+
+    <p>Lista de minifigs:</p>
+	
+	<div	id=“minifigures">
+	<ul id="lista1"></ul>
+	</div>	
+
+  <script type="text/javascript">
+    Parse.initialize("d0UBHCp3Y0HBNFf3XHvnD3nnfOeXRyuI4lHxZ0YR", "xTw4hN1DTO7kqjWcEyNqSBw0RV3yexvGAEf0dwog");
+	
+	var MiniFig = Parse.Object.extend("minifig");
+	var query = new Parse.Query(MiniFig);
+	var contenido = "";
+	query.find({
+	success: function(results) {
+		alert("Successfully retrieved " + results.length + " figs.");
+		// Do something with the returned Parse.Object values
+		for (var i = 0; i < results.length; i++) { 
+		var object = results[i];
+		var nom = object.get('Nombre');
+		var foto = object.get('Foto');
+		var descrip = object.get('Descrip');
+		var serie = object.get('Serie');
+		contenido += "<li><h2>"+nom+"</h2><img src="+foto.url()+" height='150' width='150'><p>Descripción: "+descrip+"</p><p>Serie: "+serie+"</p></li>";
+		}
+		document.getElementById("lista1").innerHTML = contenido;
+	},
+	error: function(error) {
+		alert("Error: " + error.code + " " + error.message);
+	}
+	});
+	
+  </script>
+</body>
+
+</html>

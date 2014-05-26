@@ -1,0 +1,81 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+
+  <title>Minifigs App</title>
+  <meta name="description" content="Minifigs App">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
+  <script src="//www.parsecdn.com/js/parse-1.2.18.min.js"></script>
+</head>
+
+<body>
+	
+	<nav class="navbar navbar-inverse" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Lego Minifigs!</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.html">Lista de figuras</a></li>
+        <li><a href="insert.html">Añadir figuras</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+  
+  <div id="main">
+
+    <h1>Lista de minifigs:</h1>
+	
+	<div	id=“minifigures">
+	<ul id="listaFigs"></ul>
+	</div>	
+
+  <script type="text/javascript">
+    Parse.initialize("d0UBHCp3Y0HBNFf3XHvnD3nnfOeXRyuI4lHxZ0YR", "xTw4hN1DTO7kqjWcEyNqSBw0RV3yexvGAEf0dwog");
+	
+	var MiniFig = Parse.Object.extend("minifig");
+	var query = new Parse.Query(MiniFig);
+	var contenido = "";
+	query.find({
+	success: function(results) {
+		alert("Successfully retrieved " + results.length + " figs.");
+		// Do something with the returned Parse.Object values
+		for (var i = 0; i < results.length; i++) { 
+		var object = results[i];
+		var nom = object.get('Nombre');
+		var foto = object.get('Foto');
+		var descrip = object.get('Descrip');
+		var serie = object.get('Serie');
+		contenido += "<li><h2>"+nom+"</h2><img src="+foto.url()+" height='150' width='150'><p>Descripción: "+descrip+"</p><p>Serie: "+serie+"</p></li>";
+		}
+		document.getElementById("listaFigs").innerHTML = contenido;
+	},
+	error: function(error) {
+		alert("Error: " + error.code + " " + error.message);
+	}
+	});
+	
+  </script>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.js"></script>
+</body>
+
+</html>
